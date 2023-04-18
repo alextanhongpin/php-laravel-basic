@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    build:
+      args:
+        user: john
+        uid: 1000
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+  db:
+    image: postgres:15.1-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: $DB_DATABASE
+      POSTGRES_USER: $DB_USERNAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    ports:
+      - $DB_HOST:$DB_PORT:5423
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  nginx:
+    image: nginx:stable-alpine3.17-slim
+    ports:
+      - 127.0.0.1:8000:80
+    volumes:
+      - ./:/var/www/
+      - ./docker-compose/nginx:/etc/nginx.conf.d
+
+volumes:
+  postgres_data:
