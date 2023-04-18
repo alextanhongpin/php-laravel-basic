@@ -34,3 +34,15 @@ setup:
 install:
 	@$(laravel) rm -rf vendor composer.lock
 	@$(laravel) composer install
+
+
+migrate:
+	@$(laravel) env DB_HOST=db php artisan migrate:install
+	@$(laravel) env DB_HOST=db php artisan migrate
+
+
+.PHONY: artisan
+artisan:
+	@$(laravel) php artisan $(name)
+
+# php artisan about - show configuration
