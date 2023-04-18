@@ -9,9 +9,9 @@ services:
       dockerfile: Dockerfile
     working_dir: /var/www/
     volumes:
-      - ./:/var/www
-    depends_on:
-      - db
+      - ./:/var/www/
+    networks:
+      - myapp
   db:
     image: postgres:15.1-alpine
     restart: always
@@ -23,13 +23,22 @@ services:
       - $DB_HOST:$DB_PORT:5423
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - myapp
   nginx:
     image: nginx:stable-alpine3.17-slim
     ports:
       - 127.0.0.1:8000:80
     volumes:
       - ./:/var/www/
-      - ./docker-compose/nginx:/etc/nginx.conf.d
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - myapp
 
 volumes:
   postgres_data:
+
+
+networks:
+  myapp:
+    driver: bridge
