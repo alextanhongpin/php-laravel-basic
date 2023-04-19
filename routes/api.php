@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 # localhost:8000/api/cars
-Route::get('cars', function (Request $request) {
-    return App\Models\Cars::all();
-});
+//Route::get('cars', function (Request $request) {
+    //return App\Models\Cars::all();
+//});
+
+Route::apiResource("cars", Controllers\CarController::class);

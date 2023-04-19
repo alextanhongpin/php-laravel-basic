@@ -4,19 +4,18 @@
 To create a new model, run the following command:
 
 ```bash
-$ php artisan make:model -f -m <model name, e.g. Cars>
+$ php artisan make:model --help
+
+# Generate a migration, seeder, factory, policy, resource controller and form
+# request classes for the model.
+# --api ensures that the generated controller is an API resource controller.
+$ php artisan make:model --all --api User
 ```
 
-We can run the `Makefile` command too:
-
-```bash
-$ make migrate-new name=<model name, e.g. Cars>
-```
 
 
 Output:
 ```bash
-o
    INFO  Model [app/Models/Cars.php] created successfully.
 
    INFO  Factory [database/factories/CarsFactory.php] created successfully.

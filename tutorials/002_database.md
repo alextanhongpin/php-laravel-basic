@@ -7,7 +7,31 @@ For this project, we use `Postgres`.
 To interact with the database, we have a few commands available:
 
 ```bash
+$ php artisan migrate
+
+# Or
+
 $ make migrate
+```
+
+
+## Docker
+
+
+Note that when running in docker, you need to change the `DB_HOST` environment to match the name of the database `services` in `docker-compose.yaml`. In this case, it is `db`.
+
+When running any command that requires database in Docker, you can either re-export the `DB_HOST` again:
+
+```bash
+$ export DB_HOST=db
+$ php artisan config:clear # Clear the cache
+$ printenv DB_HOST # Check the current DB_HOST
+```
+
+Or add the environment inline:
+
+```bash
+$ env DB_HOST=db php artisan migrate
 ```
 
 
@@ -21,15 +45,9 @@ The seed files can be found in `database/seeders`. The main file is `DatabaseSee
 Let's add a new seed file for `users`. To create a new seed file, we run the following command:
 
 ```bash
-$ php artisan make:seeder <name, e.g. UsersTableSeeder>
+$ php artisan make:seeder UserTableSeeder
 ```
 
-
-Since we are running it in docker, we need to use the `Makefile` command:
-
-```bash
-$ make seed-new name=UsersTableSeeder
-```
 
 This will generate the file `database/seeders/UsersTableSeeder.php`.
 
@@ -84,7 +102,15 @@ class DatabaseSeeder extends Seeder
 }
 ```
 
-Now, run `make seed` to run the seed.
+Now, run `make seed` to run the seed:
+
+```bash
+$ make seed
+
+# Or
+
+$ php artisan db:seed
+```
 
 
 ```bash

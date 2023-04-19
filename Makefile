@@ -46,12 +46,9 @@ migrate:
 	@#$(laravel) env DB_HOST=db php artisan migrate:install
 	@$(laravel) env DB_HOST=db php artisan migrate
 
-migrate-new:
-ifndef name
-    $(error, 'make migrate-new name=<name>, name is required')
-else
+
+migrate-new: validate-name
 	@$(laravel) env DB_HOST=db php artisan make:model -f -m $(name)
-endif
 
 
 .PHONY: artisan
@@ -68,16 +65,23 @@ lint: # Run phpstan https://phpstan.org/user-guide/getting-started
 	@$(laravel) vendor/bin/phpstan analyse $(lint_path)
 
 
-seed-new:
-ifndef name
-    $(error, 'name required, run "seed-new <name, e.g. UsersTableSeeder>"')
-else
-	@$(laravel) php artisan make:seeder $(name)
-endif
-
 
 seed:
 	@$(laravel) env DB_HOST=db php artisan db:seed
 
+
+artisan-cli:
+	@docker-compose exec app bash
+
+
+#validate-name:
+#ifndef name
+    #$(error 'name=<name> is required')
+#endif
+
 # Other useful commands:
 # php artisan about - show configuration
+# php artisan make:resource UserResource - creates a resource
+# php artisan make:resource UserCollection - creates a collection
+# php artisan make:request UserRequest - creates a request object for validation
+# php artisan make:controller UserController --api --resource
