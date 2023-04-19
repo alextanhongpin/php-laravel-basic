@@ -19,6 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/register', [Controllers\AuthController::class, 'register']);
+Route::post('/login', [Controllers\AuthController::class, 'login']);
+Route::post('/user-info', [Controllers\AuthController::class, 'userInfo'])->middleware('auth:sanctum');
+
 
 # localhost:8000/api/cars
 //Route::get('cars', function (Request $request) {
