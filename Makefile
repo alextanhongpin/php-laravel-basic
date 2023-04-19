@@ -5,6 +5,7 @@ export
 BUILDKIT_PROGRESS := plain # Options: tty | plain | auto
 
 laravel := docker-compose exec app
+lint_path := app database routes
 
 
 up:
@@ -63,10 +64,8 @@ test: # run unit test
 
 
 lint: # Run phpstan https://phpstan.org/user-guide/getting-started
-	@$(laravel) vendor/bin/php-cs-fixer fix app
-	@$(laravel) vendor/bin/php-cs-fixer fix routes
-	@$(laravel) vendor/bin/php-cs-fixer fix database
-	@$(laravel) vendor/bin/phpstan analyse app database tests
+	@for f in $(lint_path); do $(laravel) vendor/bin/php-cs-fixer fix $$f; done
+	@$(laravel) vendor/bin/phpstan analyse $(lint_path)
 
 
 seed-new:
