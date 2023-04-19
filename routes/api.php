@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+# localhost:8000/api/cars
+Route::get('cars', function (Request $request) {
+    return App\Models\Cars::all();
+});

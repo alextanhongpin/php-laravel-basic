@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome', ['users' => App\Models\User::all()]);
 });
+
+Route::get('/cars', function () {
+    $cars = DB::table('cars')
+        -> join('users', 'users.id', 'cars.id')
+        ->select('users.name', 'users.email', 'cars.*')
+        ->get();
+
+    return view('cars', ['cars' => $cars]);
+});

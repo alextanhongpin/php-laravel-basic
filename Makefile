@@ -42,8 +42,15 @@ composer:
 
 
 migrate:
-	@$(laravel) env DB_HOST=db php artisan migrate:install
+	@#$(laravel) env DB_HOST=db php artisan migrate:install
 	@$(laravel) env DB_HOST=db php artisan migrate
+
+migrate-new:
+ifndef name
+    $(error, 'make migrate-new name=<name>, name is required')
+else
+	@$(laravel) env DB_HOST=db php artisan make:model -f -m $(name)
+endif
 
 
 .PHONY: artisan
@@ -56,6 +63,9 @@ test: # run unit test
 
 
 lint: # Run phpstan https://phpstan.org/user-guide/getting-started
+	@$(laravel) vendor/bin/php-cs-fixer fix app
+	@$(laravel) vendor/bin/php-cs-fixer fix routes
+	@$(laravel) vendor/bin/php-cs-fixer fix database
 	@$(laravel) vendor/bin/phpstan analyse app database tests
 
 
@@ -63,7 +73,7 @@ seed-new:
 ifndef name
     $(error, 'name required, run "seed-new <name, e.g. UsersTableSeeder>"')
 else
-    @$(laravel) php artisan make:seeder $(name)
+	@$(laravel) php artisan make:seeder $(name)
 endif
 
 
