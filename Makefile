@@ -2,14 +2,14 @@ include .env
 export
 
 
-BUILDKIT_PROGRESS := tty
-BUILDKIT_PROGRESS := plain
+BUILDKIT_PROGRESS := plain # Options: tty | plain | auto
 
 laravel := docker-compose exec app
 
 
 up:
 	@docker-compose up -d
+	@open http://localhost:8000 # The web page.
 
 
 down:
@@ -36,6 +36,11 @@ install:
 	@$(laravel) composer install
 
 
+composer:
+	@$(laravel) composer require --dev phpstan/phpstan
+	@$(laravel) composer require --dev friendsofphp/php-cs-fixer
+
+
 migrate:
 	@$(laravel) env DB_HOST=db php artisan migrate:install
 	@$(laravel) env DB_HOST=db php artisan migrate
@@ -45,4 +50,25 @@ migrate:
 artisan:
 	@$(laravel) php artisan $(name)
 
+
+test: # run unit test
+	@$(laravel) php artisan test
+
+
+lint: # Run phpstan https://phpstan.org/user-guide/getting-started
+	@$(laravel) vendor/bin/phpstan analyse app database tests
+
+
+seed-new:
+ifndef name
+    $(error, 'name required, run "seed-new <name, e.g. UsersTableSeeder>"')
+else
+    @$(laravel) php artisan make:seeder $(name)
+endif
+
+
+seed:
+	@$(laravel) env DB_HOST=db php artisan db:seed
+
+# Other useful commands:
 # php artisan about - show configuration

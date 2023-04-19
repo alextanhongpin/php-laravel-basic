@@ -10,6 +10,8 @@ services:
     working_dir: /var/www/
     volumes:
       - ./:/var/www/
+    environment:
+      DB_HOST: db # Override the default, so that it connects to the services.db Docker container.
   db:
     image: postgres:15.1-alpine
     restart: always
@@ -18,7 +20,7 @@ services:
       POSTGRES_USER: $DB_USERNAME
       POSTGRES_PASSWORD: $DB_PASSWORD
     ports:
-      - $DB_HOST:$DB_PORT:5423
+      - $DB_HOST:$DB_PORT:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
   nginx:
