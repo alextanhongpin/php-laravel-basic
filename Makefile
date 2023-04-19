@@ -81,7 +81,16 @@ artisan-cli:
 
 # Other useful commands:
 # php artisan about - show configuration
+#
+#
+# API
+#
 # php artisan make:resource UserResource - creates a resource
 # php artisan make:resource UserCollection - creates a collection
 # php artisan make:request UserRequest - creates a request object for validation
 # php artisan make:controller UserController --api --resource
+#
+# Models
+#
+# php artisan make:model User --all - create models
+# php artisan model:show User - show details about a model
