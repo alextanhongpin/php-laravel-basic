@@ -6,8 +6,8 @@ Create a new view route in `routes/web.php`.
 
 ```diff
 Route::get('/', function () {
-    - return view('welcome');
-    + return view('welcome', ['users' => App\Models\User::all()]);
+-    return view('welcome');
++    return view('welcome', ['users' => App\Models\User::all()]);
 });
 ```
 
