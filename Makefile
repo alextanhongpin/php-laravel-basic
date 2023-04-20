@@ -7,6 +7,8 @@ BUILDKIT_PROGRESS := plain # Options: tty | plain | auto
 laravel := docker-compose exec app
 lint_path := app database routes
 
+UID := $(-shell uid -u)
+GID := $(-shell uid -g)
 
 up:
 	@docker-compose up -d

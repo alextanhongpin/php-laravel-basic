@@ -3,10 +3,11 @@ services:
   app:
     build:
       args:
-        user: john
-        uid: 1000
+        user: $USER # $USER
+        uid: $UID # uid -u
       context: .
       dockerfile: Dockerfile
+    user: $UID:$GID
     working_dir: /var/www/
     volumes:
       - ./:/var/www/
