@@ -76,6 +76,9 @@ artisan-cli:
 	@docker-compose exec app bash
 
 
+psql:
+	@docker-compose exec db psql -h $(DB_HOST) -U $(DB_USERNAME) -d $(DB_DATABASE)
+
 #validate-name:
 #ifndef name
     #$(error 'name=<name> is required')
